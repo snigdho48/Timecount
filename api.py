@@ -1,9 +1,10 @@
 from flask import Flask, jsonify, request
 from flaskext.mysql import MySQL
+from flask_cors import CORS
 import datetime
 
 app = Flask(__name__)
-
+CORS(app) 
 # MySQL configurations
 app.config['MYSQL_DATABASE_USER'] = 'snigdho'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Snigdho48.'
@@ -110,6 +111,7 @@ def post_data():
         return jsonify({"error": "Internal server error"}), 500
 
 if __name__ == '__main__':
+    create_table()
     app.run(debug=False)
     
-create_table()
+

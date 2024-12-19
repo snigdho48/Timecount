@@ -3,6 +3,7 @@ cffi==1.17.1
 click==8.1.7
 cryptography==44.0.0
 Flask==3.1.0
+Flask-Cors==5.0.0
 Flask-MySQL==1.6.0
 Flask-SQLAlchemy==3.1.1
 gunicorn==23.0.0
