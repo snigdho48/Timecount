@@ -73,13 +73,14 @@ def update_data(id, timestamp, count):
 @app.route('/api/kamasutra', methods=['POST'])
 def post_data():
     try:
-        if 'ip' not in request.json or 'portalID' not in request.json:
+        if 'ip' not in request.json or 'portalID' not in request.json and 'closed' not in request.json:
             return jsonify({"error": "Missing required fields: 'ip' and 'portalID'"}), 400
 
         ip = request.json['ip']
         portalID = request.json['portalID']
+        closed = request.json['closed']
         
-        if not isinstance(ip, str) or not isinstance(portalID, int) or len(ip) > 15 or portalID < 0 or portalID > 65535:
+        if not isinstance(ip, str) or not isinstance(portalID, int) or len(ip) > 15 or portalID < 0 or portalID > 65535 and not isinstance(closed, bool):
             return jsonify({"error": "Invalid data types"}), 400
         
         conn = mysql.connect()
@@ -103,7 +104,8 @@ def post_data():
         conn.close()
         difference=timediff.total_seconds()
         difference= round(difference/60,2)
-
+        if closed:
+            return jsonify({"received": 'Success', 'time': 0}), 201
         return jsonify({"received": 'Success', 'time': str(difference)}), 201
 
     except Exception as e:
