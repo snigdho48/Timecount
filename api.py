@@ -90,6 +90,7 @@ def post_data():
         rows = cursor.fetchall()
         timestamp = datetime.datetime.now()
         timediff = 0
+        difference=0
         id = rows[0][0] if len(rows) > 0 else None
         
         if len(rows) == 0:
@@ -97,13 +98,14 @@ def post_data():
                 return jsonify({"error": "Failed to insert data into database"}), 400
         else:
             timediff = timestamp - rows[0][3]  
+            difference=timediff.total_seconds()
+            difference= round(difference/60,2)
             if not update_data(id, timestamp, rows[0][4] + 1):  
                 return jsonify({"error": "Failed to update data in database"}), 400
 
         cursor.close()
         conn.close()
-        difference=timediff.total_seconds()
-        difference= round(difference/60,2)
+     
         if closed:
             return jsonify({"received": 'Success', 'time': '0'}), 201
         return jsonify({"received": 'Success', 'time': str(difference)}), 201
@@ -114,6 +116,6 @@ def post_data():
 
 if __name__ == '__main__':
     create_table()
-    app.run(debug=False)
+    app.run(debug=True)
     
 
