@@ -105,7 +105,7 @@ def post_data():
         difference=timediff.total_seconds()
         difference= round(difference/60,2)
         if closed:
-            return jsonify({"received": 'Success', 'time': 0}), 201
+            return jsonify({"received": 'Success', 'time': '0'}), 201
         return jsonify({"received": 'Success', 'time': str(difference)}), 201
 
     except Exception as e:
